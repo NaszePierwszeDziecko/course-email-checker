@@ -1,0 +1,29 @@
+.Switch {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.input, .password, .button{
+  margin: 7px;
+}
+.Error {
+  border: 1px solid #f5c6cb;
+  border-radius: .25rem;
+  margin-top: 1rem;
+  padding: 0.5rem;
+  color: #721c24;
+  background-color: #f8d7da;
+  text-align: center;
+}
+.List {
+  border: 1px solid lightgrey;
+  border-radius: .25rem;
+  margin-top: 0.4rem;
+  padding: 0.5rem;
+  color: #721c24;
+  background-color: white;
+  text-align: center;
+}
