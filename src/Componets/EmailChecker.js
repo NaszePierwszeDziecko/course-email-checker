@@ -31,10 +31,16 @@ export const EmailChecker = () => {
         console.log(result);
         setResultEmail(result.courses);
       } else {
-        setError("Wystąpił błąd email ten nie posiada kursów.");
+        setError("Wystąpił błąd: Email ten nie posiada kursów.");
       }
     } catch (e) {}
   };
+  let disableButton;
+  if (valueEmail === "") {
+    disableButton = true;
+  } else {
+    disableButton = false;
+  }
 
   return (
     <Card>
@@ -44,10 +50,16 @@ export const EmailChecker = () => {
             value={valueEmail}
             placeholder="E-mail"
             onChange={handleChangeEmail}
+            fullWidth
             inputProps={{ "aria-label": "description" }}
           />
           <Box mt={2}>
-            <Button variant="contained" fullWidth type="submit">
+            <Button
+              disabled={disableButton}
+              variant="contained"
+              fullWidth
+              type="submit"
+            >
               SPRAWDŹ
             </Button>
           </Box>

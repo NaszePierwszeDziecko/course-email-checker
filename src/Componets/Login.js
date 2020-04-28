@@ -46,6 +46,7 @@ export const Login = () => {
             <Input
               value={valueEmail}
               placeholder="E-mail"
+              fullWidth
               onChange={handleChangeEmail}
               inputProps={{ "aria-label": "description" }}
             />
@@ -53,6 +54,7 @@ export const Login = () => {
           <div className="password">
             <Input
               value={valuePassword}
+              fullWidth
               placeholder="Password"
               onChange={handleChangePassword}
               inputProps={{ "aria-label": "description" }}
