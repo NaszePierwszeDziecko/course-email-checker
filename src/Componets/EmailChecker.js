@@ -10,6 +10,7 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import "../App.css";
 import Box from "@material-ui/core/Box";
+import { getToken } from "../utils/userUtils";
 
 export const EmailChecker = () => {
   const [valueEmail, setValueEmail] = useState("");
@@ -19,16 +20,22 @@ export const EmailChecker = () => {
   const handleChangeEmail = (event) => {
     setValueEmail(event.target.value);
   };
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     setResultEmail(null);
     setError(null);
-    const result = checkEmail(valueEmail);
-    if (result.success) {
-      setResultEmail(result.courses);
-    }
-    setError(result.error);
+
+    try {
+      const result = await checkEmail(valueEmail);
+      if (result) {
+        console.log(result);
+        setResultEmail(result.courses);
+      } else {
+        setError("Wystąpił błąd email ten nie posiada kursów.");
+      }
+    } catch (e) {}
   };
+
   return (
     <Card>
       <CardContent>
@@ -40,7 +47,7 @@ export const EmailChecker = () => {
             inputProps={{ "aria-label": "description" }}
           />
           <Box mt={2}>
-            <Button variant="contained" fullWidth>
+            <Button variant="contained" fullWidth type="submit">
               SPRAWDŹ
             </Button>
           </Box>
@@ -67,32 +74,19 @@ export const EmailChecker = () => {
 };
 
 function checkEmail(email) {
-  // TODO: use real world api
-  // return fetch("https://owncourses.org/api/login_check  ", {
-  //   body: JSON.stringify(userData),
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  // }).then((res) => res.json());
-  if (email === "dobryemail@example.com") {
-    return {
-      success: true,
-      courses: [
-        {
-          id: 1,
-          title: "Szkoła rodzenia Anny Nowak",
-        },
-        {
-          id: 2,
-          title: "Szkoła wychowania Anny Kowalczyk",
-        },
-      ],
-    };
-  }
+  const token = getToken();
+  return fetch(`${process.env.REACT_APP_API_URL}/users/check-email`, {
+    body: JSON.stringify({ email }),
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  }).then(parseJSON);
+}
 
-  return {
-    success: false,
-    error: "Nie posiada żadnych kursów",
-  };
+function parseJSON(response) {
+  return response.text().then(function (text) {
+    return text ? JSON.parse(text) : null;
+  });
 }

@@ -78,7 +78,7 @@ export const Login = () => {
   );
 };
 function getToken(userData) {
-  return fetch("https://owncourses.org/api/login_check", {
+  return fetch(`${process.env.REACT_APP_API_URL}/login_check`, {
     body: JSON.stringify(userData),
     method: "POST",
     headers: {
