@@ -31,7 +31,7 @@ export const EmailChecker = () => {
         console.log(result);
         setResultEmail(result.courses);
       } else {
-        setError("Wystąpił błąd: Email ten nie posiada kursów.");
+        setError("Ten email nie posiada kursów.");
       }
     } catch (e) {}
   };
@@ -43,7 +43,7 @@ export const EmailChecker = () => {
   }
 
   return (
-    <Card>
+    <Card className="card">
       <CardContent>
         <form onSubmit={onSubmit}>
           <Input

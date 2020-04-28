@@ -27,3 +27,8 @@
   background-color: white;
   text-align: center;
 }
+.card {
+  height: auto;
+  width: auto;
+  padding: 4vh;
+}

@@ -39,7 +39,7 @@ export const Login = () => {
     return <Redirect to={redirect} />;
   }
   return (
-    <Card>
+    <Card className="card">
       <CardContent>
         <form onSubmit={onSubmit}>
           <div className="input">
