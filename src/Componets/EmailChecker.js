@@ -14,7 +14,7 @@ import { getToken } from "../utils/userUtils";
 
 export const EmailChecker = () => {
   const [valueEmail, setValueEmail] = useState("");
-  const [resultEmail, setResultEmail] = useState(null);
+  const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
 
   const handleChangeEmail = (event) => {
@@ -22,25 +22,20 @@ export const EmailChecker = () => {
   };
   const onSubmit = async (e) => {
     e.preventDefault();
-    setResultEmail(null);
+    setUser(null);
     setError(null);
 
     try {
       const result = await checkEmail(valueEmail);
       if (result) {
-        console.log(result);
-        setResultEmail(result.courses);
+        setUser(result);
       } else {
         setError("Ten email nie posiada kursów.");
       }
     } catch (e) {}
   };
-  let disableButton;
-  if (valueEmail === "") {
-    disableButton = true;
-  } else {
-    disableButton = false;
-  }
+
+  let disableButton = valueEmail === "";
 
   return (
     <Card className="card">
@@ -65,36 +60,47 @@ export const EmailChecker = () => {
           </Box>
         </form>
         {error && <div className="Error">{error}</div>}
-        {resultEmail && (
-          <List>
-            <Typography>Lista kursów:</Typography>
-            <div className="List">
-              {resultEmail.map((result) => (
-                <div key={result.id}>
-                  <ListItem>
-                    <ListItemText primary={result.title} />
-                  </ListItem>
-                  <Divider />
-                </div>
+        {user && (
+          <div style={{ marginTop: 10 }}>
+            <Typography variant="h6">Lista kursów:</Typography>
+            <div className="List" style={{ marginBottom: 15 }}>
+              {user.courses.map((result) => (
+                <ListItem key={result.id}>
+                  <ListItemText primary={result.title} />
+                </ListItem>
               ))}
             </div>
-          </List>
+
+            <Typography variant="h6">Data ostatniego logowania:</Typography>
+            <div>
+              {null === user.last_login_date ? (
+                <span style={{ color: "red" }}>Nie logowała się jeszcze</span>
+              ) : (
+                new Date(Date.parse(user.last_login_date)).toLocaleStringgit()
+              )}
+            </div>
+          </div>
         )}
       </CardContent>
     </Card>
   );
 };
 
-function checkEmail(email) {
+async function checkEmail(email) {
   const token = getToken();
-  return fetch(`${process.env.REACT_APP_API_URL}/users/check-email`, {
-    body: JSON.stringify({ email }),
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  }).then(parseJSON);
+  const response = await fetch(
+    `${process.env.REACT_APP_API_URL}/users/check-email`,
+    {
+      body: JSON.stringify({ email }),
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  return parseJSON(response);
 }
 
 function parseJSON(response) {
