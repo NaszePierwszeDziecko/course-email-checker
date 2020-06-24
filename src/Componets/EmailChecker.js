@@ -74,7 +74,7 @@ export const EmailChecker = () => {
               {null === user.last_login_date ? (
                 <span style={{ color: "red" }}>Nie logowała się jeszcze</span>
               ) : (
-                new Date(Date.parse(user.last_login_date)).toLocaleStringgit()
+                new Date(Date.parse(user.last_login_date)).toLocaleString()
               )}
             </div>
           </div>
