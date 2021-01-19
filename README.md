@@ -1,1 +1,1 @@
-Mała aplikacja która zapewnia sprawdzanie użytkownika za pośrednictwem poczty, czy kurs został zakupiony. Ile kursów jest przypisanych do jego poczty. I kiedy ostatnio logował się na konto. Aplikacja posiada system logowania. Dane z serwera są przesyłane za pomocą fetch
+Mała aplikacja która sprawdza czy użytkownik o podanym adresie email posiada dostęp do kursu. Ile kursów jest przypisanych do jego adresu i kiedy ostatnio logował się na konto. Aplikacja posiada system logowania, a dane z serwera są przesyłane za pomocą fetch
